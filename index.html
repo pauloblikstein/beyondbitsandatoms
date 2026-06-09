@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- @dsCard group="UI Kit — Website" name="BB&A · Website" subtitle="Editorial layout · stone paper · typographic rhythm" viewport="1280x1100" -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Beyond Bits &amp; Atoms — Teachers College MSTU 5180 / 5181</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="image-slot.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="Header.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="ThreeQuestions.jsx"></script>
+<script type="text/babel" src="AboutBlock.jsx"></script>
+<script type="text/babel" src="ExpoCallout.jsx"></script>
+<script type="text/babel" src="HoursAndSlack.jsx"></script>
+<script type="text/babel" src="PeopleStrip.jsx"></script>
+<script type="text/babel" src="Footer.jsx"></script>
+<script type="text/babel" src="SyllabusPage.jsx"></script>
+<script type="text/babel" src="ProjectPage.jsx"></script>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  // Tweakable defaults — host can persist edits back into this block.
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "heroVariant": "kandinsky",
+    "accent": "magenta"
+  }/*EDITMODE-END*/;
+
+  function App() {
+    const [route, setRoute] = useState('home');
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    // Map accent tweak to CSS var override on the root
+    React.useEffect(() => {
+      const map = { magenta:'#E03080', cobalt:'#2E4F8B', ochre:'#D89A2E', terracotta:'#C8553D' };
+      document.documentElement.style.setProperty('--accent', map[t.accent] || map.magenta);
+    }, [t.accent]);
+
+    return (
+      <div className="app" data-screen-label={`Page · ${route}`}>
+        <div className="page-composition" aria-hidden="true">
+          <div className="s s1"></div><div className="s s2"></div><div className="s s3"></div><div className="s s4"></div><div className="s s5"></div>
+          <div className="s s6"></div><div className="s s7"></div><div className="s s8"></div><div className="s s9"></div><div className="s s10"></div>
+        </div>
+        <Header route={route} setRoute={setRoute} />
+        {route === 'home' && (
+          <main>
+            <Hero variant={t.heroVariant} />
+            <ThreeQuestions />
+            <AboutBlock />
+            <ExpoCallout setRoute={setRoute} />
+            <HoursAndSlack />
+            <PeopleStrip />
+          </main>
+        )}
+        {route === 'syllabus' && <SyllabusPage />}
+        {route === 'project'  && <ProjectPage />}
+        {route === 'hours'    && <HoursAndSlack />}
+        {route === 'people'   && <PeopleStrip />}
+        <Footer />
+
+        <TweaksPanel title="Tweaks">
+          <TweakSection title="Hero variation">
+            <TweakRadio label="Style" value={t.heroVariant} onChange={v=>setTweak('heroVariant', v)}
+              options={[
+                {value:'kandinsky', label:'Kandinsky'},
+                {value:'colorfield', label:'Color field'},
+                {value:'zine', label:'Zine grid'},
+              ]}/>
+          </TweakSection>
+          <TweakSection title="Brand accent">
+            <TweakColor value={t.accent} onChange={v=>setTweak('accent', v)}
+              options={['magenta','cobalt','ochre','terracotta']}
+              swatchFor={k=>({magenta:'#E03080',cobalt:'#2E4F8B',ochre:'#D89A2E',terracotta:'#C8553D'}[k])}/>
+          </TweakSection>
+        </TweaksPanel>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
