@@ -1,93 +1,464 @@
-<!DOCTYPE html>
-<!-- @dsCard group="UI Kit — Website" name="BB&A · Website" subtitle="Editorial layout · stone paper · typographic rhythm" viewport="1280x1100" -->
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<title>Beyond Bits &amp; Atoms — Teachers College MSTU 5180 / 5181</title>
-<link rel="stylesheet" href="colors_and_type.css" />
-<link rel="stylesheet" href="styles.css" />
+<!DOCTYPE html><html lang="en" data-headlessui-focus-visible=""><head>
+
+
+
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Bits &amp; Atoms — Summer Studio</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  body { margin: 0; background: var(--paper); color: var(--fg-2); font-family: var(--font-sans); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px 96px; }
+
+  /* Preserve line breaks typed directly into prose blocks */
+  .hero .tagline, .hero .tagline div, .facts dd, .section h2, .lede, .detail p,
+  .day-head h4, .blk .bt, .pc ul li { white-space: pre-line; }
+
+  /* Direct-edit bold should always read as true bold */
+  b, strong { font-weight: 700; }
+
+  /* Editable-placeholder marker — anything still to be supplied */
+  .tbd { font-family: var(--font-mono); font-size: .85em; color: var(--fg-4); font-style: normal; letter-spacing: .02em; }
+  .pill-tbd {
+    display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--fg-3); background: var(--bg-soft);
+    border: 1px dashed var(--ink-200); border-radius: var(--r-pill); padding: 2px 9px; vertical-align: middle;
+  }
+
+  .eyebrow-line { font-family: var(--font-mono); font-size: var(--fz-12); font-weight: 500; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-3); }
+
+  .edition-banner {
+    display: inline-block; font-family: var(--font-mono); font-size: 16px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase; color: #fff;
+    background: var(--voice, var(--tltl-magenta)); padding: 10px 20px; border-radius: 5px; margin: 28px 0 4px;
+    transition: background var(--t-med, 220ms) var(--ease-out);
+  }
+
+  /* ── HERO ─────────────────────────────────────────────────────── */
+  .hero { position: relative; isolation: isolate; padding: var(--rhythm-hero, 64px 0 56px); margin-bottom: 8px; }
+  .hero > :not(.composition) { position: relative; z-index: 1; }
+  .hero .composition { position: absolute; left: -40px; right: -40px; top: 0; bottom: 0; pointer-events: none; z-index: -1; overflow: hidden; transform: scale(var(--atm-scale, 1)); transform-origin: 50% 45%; transition: transform var(--t-slow, 420ms) var(--ease-out); }
+  .hero .composition .s { position: absolute; border-radius: 5px; filter: blur(var(--atm-blur, 20px)) saturate(var(--atm-sat, 1)); opacity: var(--atm-op, 1); transition: filter var(--t-slow, 420ms) var(--ease-out), opacity var(--t-slow, 420ms) var(--ease-out); }
+  .hero .composition .s1 { left: 2%;  top: 14%; width: 30%; height: 62%; background: rgba(232,166,160,.58); transform: rotate(-3deg); }
+  .hero .composition .s2 { left: 60%; top: 6%;  width: 34%; height: 78%; background: rgba(244,232,200,.72); transform: rotate(2deg); }
+  .hero .composition .s3 { left: 30%; top: 40%; width: 30%; height: 58%; background: rgba(143,169,138,.46); transform: rotate(-2deg); }
+  .hero .composition .s4 { left: 73%; top: 48%; width: 24%; height: 52%; background: rgba(168,218,236,.50); transform: rotate(3deg); }
+  .hero .composition .s5 { left: 14%; top: 2%;  width: 20%; height: 34%; background: rgba(216,154,46,.40); transform: rotate(-4deg); }
+  .hero .composition .s6 { left: 44%; top: 0%;  width: 18%; height: 40%; background: rgba(201,156,203,.46); transform: rotate(5deg); }
+  .hero .composition .s7 { left: 50%; top: 58%; width: 22%; height: 42%; background: rgba(244,169,200,.46); transform: rotate(2deg); }
+
+  .hero .eyebrow-line { margin-bottom: 22px; }
+  .hero .eyebrow-line .amp { color: var(--voice, var(--tltl-magenta)); font-style: italic; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(3rem, 8vw, 92px); line-height: .96; letter-spacing: -.035em;
+    color: var(--ink-900); margin: 0 0 22px; max-width: 14ch;
+  }
+  .hero h1 em { font-style: italic; font-weight: 500; color: var(--voice-em, var(--p-purple)); }
+  .hero .tagline { font-family: var(--font-serif); font-style: italic; font-size: clamp(1.15rem, 2.2vw, 24px); color: var(--fg-2); max-width: 30ch; margin: 0 0 44px; line-height: 1.4; }
+
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 26px 36px; max-width: 720px; border-top: 2px solid var(--ink-900); padding-top: 22px; }
+  .facts dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 5px; }
+  .facts dd { font-family: var(--font-display); font-weight: 500; font-size: 19px; color: var(--ink-900); margin: 0; line-height: 1.25; }
+  .facts dd small { display: block; font-family: var(--font-sans); font-weight: 400; font-size: 12.5px; color: var(--fg-3); margin-top: 2px; letter-spacing: 0; }
+
+  /* ── SECTION SCAFFOLD ─────────────────────────────────────────── */
+  .section { margin-top: var(--rhythm-gap, 72px); }
+  .section > .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--voice, var(--tltl-magenta)); margin-bottom: 12px; }
+  .section h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.9rem, 3.6vw, 44px); letter-spacing: -.02em; color: var(--ink-900); margin: 0 0 24px; max-width: 18ch; }
+  .section h2 em { font-style: italic; font-weight: 500; color: var(--voice-em, var(--p-purple)); }
+
+  /* Short intro — serif lede */
+  .lede { font-family: var(--font-serif); font-size: clamp(1.05rem, 1.7vw, 21px); line-height: var(--rhythm-lh, 1.6); color: var(--fg-1); max-width: 62ch; }
+  .lede b { color: var(--ink-900); font-weight: 700; }
+  .lede em { font-style: italic; }
+
+  /* Detailed description — smaller, two columns */
+  .detail { columns: 2; column-gap: 48px; max-width: 920px; margin-top: 8px; }
+  .detail p { font-size: 14px; line-height: var(--rhythm-detail-lh, 1.72); color: var(--fg-2); margin: 0 0 14px; break-inside: avoid; }
+  .detail p:first-child { margin-top: 0; }
+  .detail p b { color: var(--ink-900); font-weight: 700; }
+  .detail h4 { font-family: var(--font-sans); font-weight: 700; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-900); margin: 0 0 6px; break-after: avoid; }
+  @media (max-width: 720px) { .detail { columns: 1; } }
+
+  /* ── PRE-CLASS ────────────────────────────────────────────────── */
+  .preclass { background: #fff; border: 1px solid var(--ink-100); border-radius: var(--r-lg); padding: var(--rhythm-pad, 36px 40px); box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+  .preclass::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, var(--studio-rose), var(--studio-ochre) 50%, var(--studio-sage)); }
+  .preclass .pc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .preclass .pc h4 { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--voice-em, var(--p-purple)); margin: 0 0 12px; }
+  .preclass .pc h4 .n { color: var(--ink-200); }
+  .preclass .pc ul { list-style: none; padding: 0; margin: 0; font-family: var(--font-serif); font-size: 14px; line-height: 1.5; }
+  .preclass .pc li { position: relative; padding: 6px 0 6px 18px; color: var(--fg-2); border-bottom: 1px dashed var(--ink-100); }
+  .preclass .pc li:last-child { border-bottom: 0; }
+  .preclass .pc li::before { content: "—"; position: absolute; left: 0; top: 6px; color: var(--ink-200); font-family: var(--font-mono); }
+  .preclass .pc li b { color: var(--ink-900); font-weight: 700; }
+  .preclass .pc li.placeholder { color: var(--fg-4); font-style: italic; }
+  @media (max-width: 720px) { .preclass .pc-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+  /* ── DAILY RHYTHM LEGEND ──────────────────────────────────────── */
+  .rhythm { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; border: 1px solid var(--ink-100); border-radius: var(--r-md); overflow: hidden; background: #fff; margin-bottom: 36px; }
+  .rhythm .band { flex: 1 1 0; min-width: 130px; padding: 14px 16px; border-right: 1px solid var(--ink-100); }
+  .rhythm .band:last-child { border-right: 0; }
+  .rhythm .band.meal { background: var(--bg-soft); flex: 0 1 110px; }
+  .rhythm .band .t { font-family: var(--font-mono); font-size: 11px; color: var(--p-purple); letter-spacing: .04em; margin-bottom: 4px; }
+  .rhythm .band .n { font-family: var(--font-display); font-weight: 500; font-size: 15px; color: var(--ink-900); line-height: 1.2; }
+  .rhythm .band .d { font-size: 11.5px; color: var(--fg-3); margin-top: 2px; line-height: 1.35; }
+
+  /* ── WEEK + DAY GRID ──────────────────────────────────────────── */
+  .week { margin-bottom: 40px; }
+  .week-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-bottom: 2px solid var(--ink-900); padding-bottom: 10px; margin-bottom: 4px; }
+  .week-head h3 { font-family: var(--font-display); font-weight: 600; font-size: 26px; letter-spacing: -.015em; color: var(--ink-900); margin: 0; }
+  .week-head h3 em { font-style: italic; font-weight: 500; color: var(--voice-em, var(--p-purple)); }
+  .week-head .span { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3); }
+
+  .day { display: grid; grid-template-columns: 184px 1fr 1fr; gap: 0 24px; align-items: stretch; border-bottom: 1px dashed var(--ink-100); padding: 20px 0; }
+  .day:last-child { border-bottom: 0; }
+  .day-head {}
+  .day-head .dow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 6px; }
+  .day-head .dow b { color: var(--ink-900); font-weight: 500; }
+  .day-head h4 { font-family: var(--font-display); font-weight: 500; font-size: 21px; letter-spacing: -.01em; color: var(--ink-900); margin: 0; line-height: 1.12; }
+  .day-head h4 em { font-style: italic; color: var(--studio-cobalt); }
+
+  .blk { padding-left: 16px; border-left: 1.5px solid var(--ink-100); }
+  .blk .time { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid currentColor; }
+  .blk.am .time { color: var(--studio-ochre); }
+  .blk.pm .time { color: var(--studio-cobalt); }
+  .blk .bt { font-family: var(--font-display); font-weight: 500; font-size: 15.5px; color: var(--ink-900); margin: 0 0 5px; line-height: 1.2; }
+  .blk p { font-size: 13px; line-height: 1.5; color: var(--fg-2); margin: 0; }
+  .blk .read { display: block; margin-top: 7px; font-family: var(--font-serif); font-style: italic; font-size: 12.5px; color: var(--fg-3); }
+  .blk .read::before { content: "Read · "; font-family: var(--font-mono); font-style: normal; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-300); }
+  .blk .share { display: block; margin-top: 7px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; color: var(--ink-300); }
+
+  @media (max-width: 760px) {
+    .day { grid-template-columns: 1fr; gap: 14px; }
+    .day-head h4 { font-size: 24px; }
+    .blk { border-left: 0; padding-left: 0; border-top: 1.5px solid var(--ink-100); padding-top: 12px; }
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────────────── */
+  .foot { margin-top: 80px; border-top: 1px solid var(--ink-200); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .foot .mark { font-family: var(--font-display); font-weight: 600; font-size: 18px; letter-spacing: -.015em; color: var(--ink-900); }
+  .foot .mark .amp { color: var(--voice, var(--tltl-magenta)); font-style: italic; font-weight: 500; }
+  .foot .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3); }
+  .foot .tltl img { height: 30px; width: auto; display: block; opacity: .9; }
+</style>
+<style></style><style></style><link id="gfont-Poppins" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap">
+<link id="gfont-Source-Sans-3" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&amp;display=swap">
+<style></style><link id="gfont-Playfair-Display" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&amp;display=swap">
 </head>
-<body>
-<div id="root"></div>
+<body data-new-gr-c-s-check-loaded="14.1303.0" data-gr-ext-installed="" data-gr-aaa-loaded="14.1303.0" data-gr-aaa-notch-connection-id="1781527086302-0.05693938020220923" style="font-family: &quot;Playfair Display&quot;" data-new-gr-c-s-loaded="14.1303.0">
+<div class="wrap">
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- ══════════════════ HERO ══════════════════ -->
+  <header class="hero" data-screen-label="Hero">
+    <div class="composition" aria-hidden="true">
+      <div class="s s1"></div><div class="s s2"></div><div class="s s3"></div><div class="s s4"></div>
+      <div class="s s5"></div><div class="s s6"></div><div class="s s7"></div>
+    </div>
+    <div class="eyebrow-line" style="">Beyond Bits <span class="amp">&amp;</span> Atoms&nbsp; ·&nbsp; Summer intensive &nbsp;·&nbsp; Teachers College</div>
+    <h1 spellcheck="false" style="font-size: 60px; max-width: 1500px">Beyond Bits and Atoms: <span style="font-family: var(--font-display); font-style: italic; font-weight: 500; letter-spacing: -.01em; color: var(--voice-em, var(--p-purple));">Designing Constructionist Learning Technologies</span></h1>
+    <div class="edition-banner"><span style="font-weight: 700; text-decoration: underline;">MAKING WITH AI</span> EDITION</div>
+    <div class="tagline" style="width: 75%; max-width: 75%; font-family: var(--font-serif); font-style: normal; font-size: 18px; line-height: 1.62; color: var(--fg-1); margin: 40px 0px 44px;"><div style="font-family: &quot;Playfair Display&quot;; font-weight: 400">
+      <p>In the <strong>Beyond Bits &amp; Atoms</strong> class, students learn to design, build, and critically examine constructionist educational technologies. During the Spring semester, BBA combines a theory-oriented course, MSTU 5180, with a practice-focused design lab, MSTU 5181.  Over the years, dozens of BBA projects have been published, exhibited, further developed, or transformed into commercial products.</p>
+      <p><strong>In this 2-week Summer Intensive session, BBA continues to integrate theory and practice, </strong>with a stronger emphasis on product design, digital prototyping, and the development of theory-inspired learning tools. The final project is a working prototype of a constructionist educational technology.</p>
+      <p><strong>Why a "Making with AI" Edition for BBA? </strong>Given the exponential growth of AI tools for coding, rapid prototyping, and 3D design, <em>we will pay special attention to their use in class.</em> They will not replace the "real" learning of the various tools in the class, but augment and enhance what students can do, build, and create.</p>
+    </div></div>
+    <dl class="facts">
+      <div><dt>Dates &amp; Hours</dt><dd><strong>Online Prep Session</strong> July 7, 2026
+5:00–6:30 pm
 
-<script src="image-slot.js"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="Header.jsx"></script>
-<script type="text/babel" src="Hero.jsx"></script>
-<script type="text/babel" src="ThreeQuestions.jsx"></script>
-<script type="text/babel" src="AboutBlock.jsx"></script>
-<script type="text/babel" src="ExpoCallout.jsx"></script>
-<script type="text/babel" src="HoursAndSlack.jsx"></script>
-<script type="text/babel" src="PeopleStrip.jsx"></script>
-<script type="text/babel" src="Footer.jsx"></script>
-<script type="text/babel" src="SyllabusPage.jsx"></script>
-<script type="text/babel" src="ProjectPage.jsx"></script>
+          <strong>In-Person Sessions</strong> Jul 13 - 17 &amp; July 20 - 24 
+9:30 am – 4:00 pm</dd>
+      </div>
+      <div><dt>Where</dt><dd style=""><strong>Transformative Learning Technologies Lab</strong> Thompson Hall, room 324 (TH324)
+Teachers College, Columbia University</dd>
+      </div>
+      <div><dt>Format</dt><dd style="">One online prep session  + 2 weeks in the lab</dd></div>
+      <div><dt>Course</dt><dd><strong>MSTU 5181</strong></dd>
+      </div>
+      <div><dt>Apply</dt><dd><a href="https://forms.gle/wCDDCH1xqAhHS6Vh6" style="color: var(--voice, var(--tltl-magenta)); text-decoration: none; border-bottom: 1.5px solid currentColor; padding-bottom: 1px;">Application form &rarr;</a></dd></div>
+    </dl>
+  </header>
 
-<script type="text/babel">
-  const { useState } = React;
+  <!-- ══════════════════ INTRO (short) ══════════════════ -->
+  <section class="section" data-screen-label="About">
+    <h2>A two-week intensive studio in <em>Designing Constructionist Technologies for Learning</em></h2>
+  </section>
+    <p class="lede" spellcheck="false" style="font-family: &quot;Playfair Display&quot;">The BBA Summer Studio is an intensive hands-on version of Beyond Bits &amp; Atoms, focused on <em>Making with AI </em>tools. Across ten days, you'll move through the lab's full toolkit — laser cutter, 3D printers, microcontrollers, woodworking, coding, prototyping — and use them to design and build a working educational technology of your own. We read just enough theory to gain a foundational understanding of why we build the way we do, then spend the rest of the day making, building, and giving one another feedback. In the Summer session, students explore the basics of constructivism, constructionism, and critical pedagogy, as well as the role of media and tools, design thinking, and user-centered design. These ideas are studied in the context of case studies of existing educational technologies, and the students' own projects. </p>
+  </section>
 
-  // Tweakable defaults — host can persist edits back into this block.
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "heroVariant": "kandinsky",
+  <!-- ══════════════════ DETAILED DESCRIPTION (smaller) ══════════════════ -->
+  <section class="section" data-screen-label="In detail">
+    <h2>Summary Program</h2>
+    <div class="detail">
+      <h4>DAILY ROUTINE</h4>
+      <p>Every day runs from 9:30 to 4 as a studio. Mornings start with a short discussion — based on a short reading or a case study — followed a lab block. After lunch, we will have a second lab block and hands-on project time. Students will be able to use an optional open lab time until 5 pm, and possibly later in the second week of the class.</p>
+      <p>The first week is a tour of tools and techniques: by Friday you'll have cut, printed, wired, and programmed something, and pitched ideas for a final project. The second week is mostly for project development: you scope a project, build it, do user testing, iterate, and exhibit it at a closing mini-Expo.</p>
+      <h4>What you'll make</h4>
+      <p>Each participant will build one working prototype of a constructionist learning technology — something a learner could actually pick up and use — plus a short write-up documenting the idea, the build, and what testing revealed.</p>
+      <h4>Reading &amp; theory</h4>
+      <p>Reading is deliberately light. A handful of short, foundational pieces frame the work — enough to give the students a point of view and foundational knowledge on the main learning and design theories.</p>
+      <h4>PREVIOUS EXPERIENCE? NO!!</h4>
+      <p>No prior coding, fabrication, or electronics experience is assumed. The studio suits educators, designers, and graduate students from all backgrounds.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════ SCHEDULE ══════════════════ -->
+  <section class="section" data-screen-label="Schedule">
+    <h2 style="font-size: 44px">Daily Program</h2>
+
+    <!-- Daily rhythm legend -->
+    <div class="rhythm" aria-label="Daily rhythm">
+      <div class="band"><div class="t">9:30 – 10:30</div><div class="n">Morning discussion</div><div class="d">Short read · plan the day</div></div>
+      <div class="band meal"><div class="t">10:30 – 10:45</div><div class="n">Coffee</div></div>
+      <div class="band"><div class="t">10:45 – 12:30</div><div class="n">Studio block I</div><div class="d">Build</div></div>
+      <div class="band meal"><div class="t">12:30 – 1:30</div><div class="n">Lunch</div></div>
+      <div class="band"><div class="t">1:30 – 2:30</div><div class="n">Studio block II</div><div class="d">Build</div></div>
+      <div class="band"><div class="t">2:30 – 4:00</div><div class="n">Hands-on / project time (with coffee!)</div><div class="d">With coffee!</div></div>
+      <div class="band"><div class="t">4:00 – 5:00</div><div class="n">Optional lab work</div><div class="d">Open bench</div></div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week" data-screen-label="Week 1">
+      <div class="week-head"><h3>Week one</h3><span class="span">JUL 13 – 17</span></div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">MON · JUL 13</div><h4 style=""><em style=""><span style="color: rgb(31, 26, 23); font-style: normal;">Constructionism </span>&amp; Laser Cutting</em></h4></div>
+        <div class="blk am"><div class="time">Theory / Discussion</div><p class="bt" style="">Constructionism</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt">Vector Drawing / Laser cutting I</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">TUE · JUL 14</div><h4 style=""><em style=""><em style="color: rgb(46, 79, 139); letter-spacing: -0.21px; outline: rgb(139, 92, 246) solid 2px; outline-offset: 2px;"><span style="color: rgb(31, 26, 23); font-style: normal;">Constructivism&nbsp;</span></em>&amp; More Laser Cutting!</em></h4></div>
+        <div class="blk am"><div class="time">Theory / Discussion</div><p class="bt" style="">Constructivism and Socio Cultural Approches</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt">Laser Cutting II</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">WED · JUL 15</div><h4 style="">Critical Pedagogy &amp;&nbsp;<em style="">Flexible Materials</em></h4></div>
+        <div class="blk am"><div class="time">Theory / Discussion</div><p class="bt" style="">Critical Pedagogy and Paulo Freire</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt" style="">Vinyl Cutting, vacuum forming and e-textiles</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">THU · JUL 16</div><h4 style=""><em style=""><span style="color: rgb(31, 26, 23); font-style: normal; letter-spacing: -0.01em;">Design Theories </span>&amp; Physical Computing</em></h4></div>
+        <div class="blk am"><div class="time">Theory / Discussion</div><p class="bt">Design Theories and User Centered Design</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt">Physical Computing and Sensing</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">FRI · JUL 17</div><h4 style="">Learning Design &amp; <em style="">3D printing</em></h4></div>
+        <div class="blk am"><div class="time">Theory / Discussion</div><p class="bt" style="">Learning Centered Technology Design</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt">3D Printing</p></div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week" data-screen-label="Week 2">
+      <div class="week-head"><h3>Week two — <em>project &amp; exhibition.</em></h3><span class="span" style="">Jul 20 – 24</span></div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">MON · JUL 20</div><h4 style="">Project Pitch</h4></div>
+        <div class="blk am"><div class="time">DESIGN / DISCUSSION</div><p class="bt">Storyboarding the final project</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt">Project pitch</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">TUE · JUL 21</div><h4 style="">Product v1</h4></div>
+        <div class="blk am"><div class="time">DESIGN / DISCUSSION</div><p class="bt" style="">Build an MVP (minimum viable product)</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt" style="">Feedback on MVP</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">WED · JUL 22</div><h4 style="">Product V2</h4></div>
+        <div class="blk am"><div class="time">DESIGN / DISCUSSION</div><p class="bt" style="">User testing</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt" style="">Project build, v2</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">THU · JUL 23</div><h4 style=""></h4><h4 style="font-family: &quot;Playfair Display&quot;, &quot;Source Serif 4&quot;, Georgia, serif; color: rgb(31, 26, 23);">Product V3</h4></div>
+        <div class="blk am"><div class="time">DESIGN  / DISCUSSION</div><p class="bt" style="">Project build, v3</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt" style="">Project build, v3 &amp; demo run</p></div>
+      </div>
+
+      <div class="day">
+        <div class="day-head"><div class="dow">FRI · JUL 24</div><h4 style="">Final&nbsp;<em>Expo</em></h4></div>
+        <div class="blk am"><div class="time">DESIGN  / DISCUSSION</div><p class="bt" style="">Final project build, final fixes &amp; setup</p></div>
+        <div class="blk pm"><div class="time">Lab</div><p class="bt">BB&amp;A Summer Expo</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer class="foot">
+    <div class="mark">Beyond Bits <span class="amp">&amp;</span> Atoms</div>
+    <div class="meta" style="">Summer Studio · 2026 · Teachers College, Columbia University</div>
+    <div class="tltl"><img src="assets/logo-tltl-horizontal.png" alt="Transformative Learning Technologies Lab"></div>
+  </footer>
+
+</div>
+
+
+<grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration>
+
+<!-- ══════════════════ TWEAKS PANEL ══════════════════ -->
+<style>
+  #bba-tweaks {
+    position: fixed; right: 20px; bottom: 20px; z-index: 9999; display: none;
+    width: 268px; background: #fff; color: var(--ink-900);
+    border: 1px solid var(--ink-200); border-radius: var(--r-md);
+    box-shadow: var(--shadow-lg); font-family: var(--font-sans);
+    overflow: hidden; user-select: none;
+  }
+  #bba-tweaks.open { display: block; }
+  #bba-tweaks .tw-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px; border-bottom: 1px solid var(--ink-100); cursor: grab;
+  }
+  #bba-tweaks .tw-head.dragging { cursor: grabbing; }
+  #bba-tweaks .tw-title { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-900); }
+  #bba-tweaks .tw-x { border: 0; background: none; cursor: pointer; font-size: 17px; line-height: 1; color: var(--ink-300); padding: 2px 4px; border-radius: 4px; }
+  #bba-tweaks .tw-x:hover { color: var(--ink-900); background: var(--bg-soft); }
+  #bba-tweaks .tw-body { padding: 14px; display: flex; flex-direction: column; gap: 18px; }
+  #bba-tweaks .tw-sec > .tw-lbl { display: block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--voice, var(--tltl-magenta)); margin-bottom: 3px; }
+  #bba-tweaks .tw-sec > .tw-hint { display: block; font-family: var(--font-serif); font-style: italic; font-size: 12px; color: var(--fg-3); margin-bottom: 9px; line-height: 1.35; }
+  #bba-tweaks .tw-seg { display: flex; border: 1px solid var(--ink-200); border-radius: var(--r-sm); overflow: hidden; }
+  #bba-tweaks .tw-seg button {
+    flex: 1 1 0; border: 0; border-right: 1px solid var(--ink-100); background: #fff;
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 500; color: var(--fg-3);
+    padding: 8px 4px; cursor: pointer; transition: background .12s, color .12s;
+  }
+  #bba-tweaks .tw-seg button:last-child { border-right: 0; }
+  #bba-tweaks .tw-seg button:hover { background: var(--bg-soft); }
+  #bba-tweaks .tw-seg button[aria-pressed="true"] { background: var(--ink-900); color: var(--fg-onDark); }
+</style>
+<div id="bba-tweaks" aria-label="Tweaks">
+  <div class="tw-head" id="tw-head">
+    <span class="tw-title">Tweaks</span>
+    <button class="tw-x" id="tw-close" title="Close" aria-label="Close">×</button>
+  </div>
+  <div class="tw-body">
+    <div class="tw-sec">
+      <span class="tw-lbl">Studio atmosphere</span>
+      <span class="tw-hint">How the color field behind the title behaves.</span>
+      <div class="tw-seg" data-key="atmosphere">
+        <button data-val="soft">Soft wash</button>
+        <button data-val="gallery">Gallery</button>
+        <button data-val="vivid">Vivid</button>
+      </div>
+    </div>
+    <div class="tw-sec">
+      <span class="tw-lbl">Reading rhythm</span>
+      <span class="tw-hint">Pacing of the whole page — open and breezy, or tight like a zine.</span>
+      <div class="tw-seg" data-key="rhythm">
+        <button data-val="airy">Airy</button>
+        <button data-val="balanced">Balanced</button>
+        <button data-val="compact">Compact</button>
+      </div>
+    </div>
+    <div class="tw-sec">
+      <span class="tw-lbl">Accent voice</span>
+      <span class="tw-hint">The single brand hue leading eyebrows, banner &amp; emphasis.</span>
+      <div class="tw-seg" data-key="accent">
+        <button data-val="magenta">Magenta</button>
+        <button data-val="cobalt">Cobalt</button>
+        <button data-val="plum">Plum</button>
+        <button data-val="forest">Forest</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var TW = /*EDITMODE-BEGIN*/{
+    "atmosphere": "vivid",
+    "rhythm": "airy",
     "accent": "magenta"
   }/*EDITMODE-END*/;
 
-  function App() {
-    const [route, setRoute] = useState('home');
-    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  var ATM = {
+    soft:    { "--atm-blur": "34px", "--atm-sat": ".72", "--atm-op": ".82", "--atm-scale": "1.08" },
+    gallery: { "--atm-blur": "20px", "--atm-sat": "1",   "--atm-op": "1",   "--atm-scale": "1" },
+    vivid:   { "--atm-blur": "9px",  "--atm-sat": "1.5", "--atm-op": "1",   "--atm-scale": "1.14" }
+  };
+  var RHY = {
+    airy:     { "--rhythm-gap": "108px", "--rhythm-hero": "88px 0 76px", "--rhythm-pad": "48px 54px", "--rhythm-lh": "1.8",  "--rhythm-detail-lh": "1.95" },
+    balanced: { "--rhythm-gap": "72px",  "--rhythm-hero": "64px 0 56px", "--rhythm-pad": "36px 40px", "--rhythm-lh": "1.6",  "--rhythm-detail-lh": "1.72" },
+    compact:  { "--rhythm-gap": "44px",  "--rhythm-hero": "44px 0 36px", "--rhythm-pad": "26px 30px", "--rhythm-lh": "1.45", "--rhythm-detail-lh": "1.55" }
+  };
+  var ACC = {
+    magenta: { "--voice": "#E03080", "--voice-em": "#5E4076" },
+    cobalt:  { "--voice": "#2E4F8B", "--voice-em": "#14628A" },
+    plum:    { "--voice": "#5E1F5F", "--voice-em": "#5E1F5F" },
+    forest:  { "--voice": "#3F7325", "--voice-em": "#3F7325" }
+  };
 
-    // Map accent tweak to CSS var override on the root
-    React.useEffect(() => {
-      const map = { magenta:'#E03080', cobalt:'#2E4F8B', ochre:'#D89A2E', terracotta:'#C8553D' };
-      document.documentElement.style.setProperty('--accent', map[t.accent] || map.magenta);
-    }, [t.accent]);
-
-    return (
-      <div className="app" data-screen-label={`Page · ${route}`}>
-        <div className="page-composition" aria-hidden="true">
-          <div className="s s1"></div><div className="s s2"></div><div className="s s3"></div><div className="s s4"></div><div className="s s5"></div>
-          <div className="s s6"></div><div className="s s7"></div><div className="s s8"></div><div className="s s9"></div><div className="s s10"></div>
-        </div>
-        <Header route={route} setRoute={setRoute} />
-        {route === 'home' && (
-          <main>
-            <Hero variant={t.heroVariant} />
-            <ThreeQuestions />
-            <AboutBlock />
-            <ExpoCallout setRoute={setRoute} />
-            <HoursAndSlack />
-            <PeopleStrip />
-          </main>
-        )}
-        {route === 'syllabus' && <SyllabusPage />}
-        {route === 'project'  && <ProjectPage />}
-        {route === 'hours'    && <HoursAndSlack />}
-        {route === 'people'   && <PeopleStrip />}
-        <Footer />
-
-        <TweaksPanel title="Tweaks">
-          <TweakSection title="Hero variation">
-            <TweakRadio label="Style" value={t.heroVariant} onChange={v=>setTweak('heroVariant', v)}
-              options={[
-                {value:'kandinsky', label:'Kandinsky'},
-                {value:'colorfield', label:'Color field'},
-                {value:'zine', label:'Zine grid'},
-              ]}/>
-          </TweakSection>
-          <TweakSection title="Brand accent">
-            <TweakColor value={t.accent} onChange={v=>setTweak('accent', v)}
-              options={['magenta','cobalt','ochre','terracotta']}
-              swatchFor={k=>({magenta:'#E03080',cobalt:'#2E4F8B',ochre:'#D89A2E',terracotta:'#C8553D'}[k])}/>
-          </TweakSection>
-        </TweaksPanel>
-      </div>
-    );
+  function applyVars(map) { for (var k in map) document.body.style.setProperty(k, map[k]); }
+  function apply() {
+    applyVars(ATM[TW.atmosphere] || ATM.gallery);
+    applyVars(RHY[TW.rhythm] || RHY.balanced);
+    applyVars(ACC[TW.accent] || ACC.magenta);
+    document.querySelectorAll('#bba-tweaks .tw-seg').forEach(function (seg) {
+      var key = seg.getAttribute('data-key');
+      seg.querySelectorAll('button').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-val') === TW[key] ? 'true' : 'false');
+      });
+    });
   }
-  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+  function setTweak(key, val) {
+    TW[key] = val;
+    apply();
+    var edits = {}; edits[key] = val;
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: edits }, '*');
+  }
+
+  document.querySelectorAll('#bba-tweaks .tw-seg').forEach(function (seg) {
+    var key = seg.getAttribute('data-key');
+    seg.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { setTweak(key, b.getAttribute('data-val')); });
+    });
+  });
+
+  // ── Host protocol ──────────────────────────────────────────────
+  var panel = document.getElementById('bba-tweaks');
+  window.addEventListener('message', function (e) {
+    var t = e && e.data && e.data.type;
+    if (t === '__activate_edit_mode') panel.classList.add('open');
+    else if (t === '__deactivate_edit_mode') panel.classList.remove('open');
+  });
+  document.getElementById('tw-close').addEventListener('click', function () {
+    panel.classList.remove('open');
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  });
+
+  // ── Drag the panel by its header ───────────────────────────────
+  (function () {
+    var head = document.getElementById('tw-head'), down = false, sx = 0, sy = 0, ox = 20, oy = 20;
+    head.addEventListener('mousedown', function (e) {
+      if (e.target.id === 'tw-close') return;
+      down = true; sx = e.clientX; sy = e.clientY;
+      var r = panel.getBoundingClientRect();
+      ox = window.innerWidth - r.right; oy = window.innerHeight - r.bottom;
+      head.classList.add('dragging'); e.preventDefault();
+    });
+    window.addEventListener('mousemove', function (e) {
+      if (!down) return;
+      panel.style.right = Math.max(8, ox - (e.clientX - sx)) + 'px';
+      panel.style.bottom = Math.max(8, oy - (e.clientY - sy)) + 'px';
+    });
+    window.addEventListener('mouseup', function () { down = false; head.classList.remove('dragging'); });
+  })();
+
+  apply();
+  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+})();
 </script>
-</body>
-</html>
+</body></html>
+<style id="__om-edit-overrides">
+.tagline div >[spellcheck] { font-family: "Playfair Display" !important }
+[spellcheck] >div:nth-child(3) { font-family: "Playfair Display" !important }
+</style>
