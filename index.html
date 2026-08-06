@@ -424,7 +424,7 @@ Teachers College, Columbia University</dd>
     TW[key] = val;
     apply();
     var edits = {}; edits[key] = val;
-    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: edits }, '*');
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: edits }, '/');
   }
 
   document.querySelectorAll('#bba-tweaks .tw-seg').forEach(function (seg) {
@@ -443,7 +443,7 @@ Teachers College, Columbia University</dd>
   });
   document.getElementById('tw-close').addEventListener('click', function () {
     panel.classList.remove('open');
-    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '/');
   });
 
   // ── Drag the panel by its header ───────────────────────────────
@@ -465,7 +465,7 @@ Teachers College, Columbia University</dd>
   })();
 
   apply();
-  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  window.parent.postMessage({ type: '__edit_mode_available' }, '/');
 })();
 </script>
 </body></html>
