@@ -35,9 +35,9 @@ function Footer() {
         <div>
           <h4>Affiliations</h4>
           <div className="marks">
-            <img className="tltl" src="assets/logo-tltl-horizontal.png" alt="TLTL"/>
-            <img src="assets/tc-left-aligned.jpg" alt="Teachers College"/>
-            <img src="assets/columbia-university-blue.png" alt="Columbia University"/>
+            <img className="tltl" src="../assets/logo-tltl-horizontal.png" alt="TLTL"/>
+            <img src="../assets/tc-left-aligned.jpg" alt="Teachers College"/>
+            <img src="../assets/columbia-university-blue.png" alt="Columbia University"/>
           </div>
         </div>
       </div>
