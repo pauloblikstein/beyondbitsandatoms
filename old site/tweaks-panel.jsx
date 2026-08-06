@@ -566,3 +566,11 @@ Object.assign(window, {
   TweakSlider, TweakToggle, TweakRadio, TweakSelect,
   TweakText, TweakNumber, TweakColor, TweakButton,
 });
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    useTweaks, TweaksPanel, TweakSection, TweakRow,
+    TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+    TweakText, TweakNumber, TweakColor, TweakButton,
+  };
+}
