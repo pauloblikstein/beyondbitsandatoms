@@ -396,17 +396,18 @@ Teachers College, Columbia University</dd>
     forest:  { "--voice": "#3F7325", "--voice-em": "#3F7325" }
   };
 
+  var buttonsCache = [];
+
   function applyVars(map) { for (var k in map) document.body.style.setProperty(k, map[k]); }
   function apply() {
     applyVars(ATM[TW.atmosphere] || ATM.gallery);
     applyVars(RHY[TW.rhythm] || RHY.balanced);
     applyVars(ACC[TW.accent] || ACC.magenta);
-    document.querySelectorAll('#bba-tweaks .tw-seg').forEach(function (seg) {
-      var key = seg.getAttribute('data-key');
-      seg.querySelectorAll('button').forEach(function (b) {
-        b.setAttribute('aria-pressed', b.getAttribute('data-val') === TW[key] ? 'true' : 'false');
-      });
-    });
+
+    for (var i = 0; i < buttonsCache.length; i++) {
+      var item = buttonsCache[i];
+      item.btn.setAttribute('aria-pressed', item.val === TW[item.key] ? 'true' : 'false');
+    }
   }
 
   function setTweak(key, val) {
@@ -419,7 +420,9 @@ Teachers College, Columbia University</dd>
   document.querySelectorAll('#bba-tweaks .tw-seg').forEach(function (seg) {
     var key = seg.getAttribute('data-key');
     seg.querySelectorAll('button').forEach(function (b) {
-      b.addEventListener('click', function () { setTweak(key, b.getAttribute('data-val')); });
+      var val = b.getAttribute('data-val');
+      buttonsCache.push({ btn: b, key: key, val: val });
+      b.addEventListener('click', function () { setTweak(key, val); });
     });
   });
 
