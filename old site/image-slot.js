@@ -232,23 +232,90 @@
       const root = this.attachShadow({ mode: 'open' });
       // .spill and .ctl sit OUTSIDE .frame so overflow:hidden + border-radius
       // on the frame (circle, pill, rounded) can't clip them.
-      root.innerHTML =
-        '<style>' + stylesheet + '</style>' +
-        '<div class="frame" part="frame">' +
-        '  <img part="image" alt="" draggable="false" style="display:none">' +
-        '  <div class="empty" part="empty">' + icon +
-        '    <div class="cap"></div>' +
-        '    <div class="sub">or <u>browse files</u></div></div>' +
-        '  <div class="ring" part="ring"></div>' +
-        '</div>' +
-        '<div class="spill">' +
-        '  <img class="ghost" alt="" draggable="false">' +
-        '  <div class="handle" data-c="nw"></div><div class="handle" data-c="ne"></div>' +
-        '  <div class="handle" data-c="sw"></div><div class="handle" data-c="se"></div>' +
-        '</div>' +
-        '<div class="ctl"><button data-act="replace" title="Replace image">Replace</button>' +
-        '  <button data-act="clear" title="Remove image">Remove</button></div>' +
-        '<input type="file" accept="' + ACCEPT.join(',') + '" hidden>';
+      const styleEl = document.createElement('style');
+      styleEl.textContent = stylesheet;
+      root.appendChild(styleEl);
+
+      const frameEl = document.createElement('div');
+      frameEl.className = 'frame';
+      frameEl.setAttribute('part', 'frame');
+
+      const imgEl = document.createElement('img');
+      imgEl.setAttribute('part', 'image');
+      imgEl.alt = '';
+      imgEl.draggable = false;
+      imgEl.style.display = 'none';
+      frameEl.appendChild(imgEl);
+
+      const emptyEl = document.createElement('div');
+      emptyEl.className = 'empty';
+      emptyEl.setAttribute('part', 'empty');
+
+      const parser = new DOMParser();
+      const iconDoc = parser.parseFromString(icon, 'image/svg+xml');
+      emptyEl.appendChild(iconDoc.documentElement);
+
+      const capEl = document.createElement('div');
+      capEl.className = 'cap';
+      emptyEl.appendChild(capEl);
+
+      const subEl = document.createElement('div');
+      subEl.className = 'sub';
+      subEl.appendChild(document.createTextNode('or '));
+      const uEl = document.createElement('u');
+      uEl.textContent = 'browse files';
+      subEl.appendChild(uEl);
+      emptyEl.appendChild(subEl);
+
+      frameEl.appendChild(emptyEl);
+
+      const ringEl = document.createElement('div');
+      ringEl.className = 'ring';
+      ringEl.setAttribute('part', 'ring');
+      frameEl.appendChild(ringEl);
+
+      root.appendChild(frameEl);
+
+      const spillEl = document.createElement('div');
+      spillEl.className = 'spill';
+
+      const ghostEl = document.createElement('img');
+      ghostEl.className = 'ghost';
+      ghostEl.alt = '';
+      ghostEl.draggable = false;
+      spillEl.appendChild(ghostEl);
+
+      ['nw', 'ne', 'sw', 'se'].forEach(c => {
+        const handle = document.createElement('div');
+        handle.className = 'handle';
+        handle.setAttribute('data-c', c);
+        spillEl.appendChild(handle);
+      });
+
+      root.appendChild(spillEl);
+
+      const ctlEl = document.createElement('div');
+      ctlEl.className = 'ctl';
+
+      const btnReplace = document.createElement('button');
+      btnReplace.setAttribute('data-act', 'replace');
+      btnReplace.title = 'Replace image';
+      btnReplace.textContent = 'Replace';
+      ctlEl.appendChild(btnReplace);
+
+      const btnRemove = document.createElement('button');
+      btnRemove.setAttribute('data-act', 'clear');
+      btnRemove.title = 'Remove image';
+      btnRemove.textContent = 'Remove';
+      ctlEl.appendChild(btnRemove);
+
+      root.appendChild(ctlEl);
+
+      const inputEl = document.createElement('input');
+      inputEl.type = 'file';
+      inputEl.accept = ACCEPT.join(',');
+      inputEl.hidden = true;
+      root.appendChild(inputEl);
       this._frame = root.querySelector('.frame');
       this._ring = root.querySelector('.ring');
       this._img = root.querySelector('.frame img');
